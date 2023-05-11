@@ -5,7 +5,8 @@ foo@bar:~/ros2_miapr$ ./src/Universal_Robots_ROS2_Driver/ur_robot_driver/scripts
 ```
 ## Uruchomienie symulatora robota
 ```console
-foo@bar:~/ros2_miapr$ ros2 launch ur_robot_driver ur_control.launch.py \ ur_type:=ur5e robot_ip:=192.168.56.101 \
+foo@bar:~/ros2_miapr$ ros2 launch ur_robot_driver ur_control.launch.py \ 
+ur_type:=ur5e robot_ip:=192.168.56.101 \
 use_fake_hardware:=true launch_rviz:=false \
 initial_joint_controller:=joint_trajectory_controller
 ```
