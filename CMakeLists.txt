@@ -45,12 +45,6 @@ include_directories(
 )
 
 # Add executables
-add_executable(publisher src/publisher.cpp)
-ament_target_dependencies(publisher rclcpp std_msgs)
-
-add_executable(listener src/listener.cpp)
-ament_target_dependencies(listener rclcpp std_msgs miapr_ur5e_interfaces)
-
 add_executable(joint_space_trajectory src/joint_space_trajectory.cpp)
 ament_target_dependencies(joint_space_trajectory rclcpp moveit_ros_planning_interface)
 
@@ -59,8 +53,6 @@ ament_target_dependencies(trajectory_control_server rclcpp moveit_ros_planning_i
 
 # Install targets
 install(TARGETS
-  publisher
-  listener
   joint_space_trajectory
   trajectory_control_server
   DESTINATION lib/${PROJECT_NAME})
