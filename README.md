@@ -23,25 +23,34 @@ Implementacja modułu do planowania ruchu manipulatora UR5 w ROS 2 (Humble) z wy
 - wykorzystać należy MoveIt (kinematyka, planning scene), do utworzenia ścieżki - move_group,  umożliwienie wyboru planera z poziomu kodu, porównanie kilku algorytmów planowania;   
 - planowanie ścieżki z unikaniem kolizji ze środowiskiem reprezentowanym jako Octomapa;
 
-## Joint Space Trajectory
+## Uruchomienie servera
+```console
+foo@bar:~/ros2_miapr$ ros2 launch miapr_ur5e trajectory_control_server.launch.py
+``` 
+
+## Trajectory controllers
+### Joint Space Trajectory
 ```console
 foo@bar:~/ros2_miapr$ ros2 service call /joint_trajectory_service miapr_ur5e_interfaces/srv/JointTrajectoryInterface "{j1: 0, j2: -1.57, j3: -1.57, j4: -1.57, j5: 1.57, j6: 0, controller: 1}"
 ```
 
-## Cartesian Space Trajectory
+### Cartesian Space Trajectory
 ```console
 foo@bar:~/ros2_miapr$ ros2 service call /cartesian_trajectory_service miapr_ur5e_interfaces/srv/CartesianTrajectoryInterface "{x: 0.2, y: 0, z: 0, qw: 0, qx: 0, qy: 0, qz: 0, controller: 1}"
 ```
 
-## Cartesian Linear Space Trajectory
+### Cartesian Linear Space Trajectory
 ```console
 foo@bar:~/ros2_miapr$ ros2 service call /cartesian_linear_trajectory_service miapr_ur5e_interfaces/srv/CartesianTrajectoryInterface "{x: 0.2, y: 0, z: 0, qw: 0, qx: 0, qy: 0, qz: 0}"
 ```
-## Add obstacle to scene
+## Obstacles
+
+### Add obstacle to scene
 ```console
 foo@bar:~/ros2_miapr$ ros2 service call /obstacle_add_service miapr_ur5e_interfaces/srv/ObstacjeInterface "{x: 1, y: 1, z: -2, box_x: 1, box_y: 1, box_z: 1}"
 ```
-## Delete all obstacles
+
+### Delete all obstacles
 ```console
 foo@bar:~/ros2_miapr$ ros2 service call /obstacle_del_service miapr_ur5e_interfaces/srv/ObstacleDelInterface
 ```
