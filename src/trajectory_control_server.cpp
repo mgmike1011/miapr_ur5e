@@ -4,7 +4,8 @@
 #include "moveit/move_group_interface/move_group_interface.h"
 #include <moveit/utils/moveit_error_code.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
-
+#include "miapr_ur5e_interfaces/srv/obstacje_interface.hpp"
+#include "miapr_ur5e_interfaces/srv/obstacle_del_interface.hpp"
 
 using moveit::planning_interface::MoveGroupInterface;
     
@@ -23,6 +24,12 @@ public:
         
         this->joint_trajectory_service_ = this->create_service<miapr_ur5e_interfaces::srv::JointTrajectoryInterface>("joint_trajectory_service", 
         std::bind(&TrajectoryControlServer::callbackJointTrajectoryService, this, std::placeholders::_1, std::placeholders::_2));
+
+        this->obstacle_add_service_ = this->create_service<miapr_ur5e_interfaces::srv::ObstacjeInterface>("obstacle_add_service",
+        std::bind(&TrajectoryControlServer::callbackObstacleAddService, this, std::placeholders::_1, std::placeholders::_2));
+
+        this->obstacle_del_service_  = this->create_service<miapr_ur5e_interfaces::srv::ObstacleDelInterface>("obstacle_del_service",
+        std::bind(&TrajectoryControlServer::callbackObstacleDelService, this, std::placeholders::_1, std::placeholders::_2));
     }
      
 private:
@@ -32,9 +39,91 @@ private:
     rclcpp::Service<miapr_ur5e_interfaces::srv::CartesianTrajectoryInterface>::SharedPtr cartesian_trajectory_service_;
     rclcpp::Service<miapr_ur5e_interfaces::srv::CartesianTrajectoryInterface>::SharedPtr cartesian_linear_trajectory_service_;
     rclcpp::Service<miapr_ur5e_interfaces::srv::JointTrajectoryInterface>::SharedPtr joint_trajectory_service_;
+    std::vector<std::string> obstacles;
+    rclcpp::Service<miapr_ur5e_interfaces::srv::ObstacjeInterface>::SharedPtr obstacle_add_service_;
+    rclcpp::Service<miapr_ur5e_interfaces::srv::ObstacleDelInterface>::SharedPtr obstacle_del_service_;
     // 
     // Methods
     // 
+    /** 
+     * \brief Obstacle Add service callback.
+     * \param[in] request  ObstacjeInterface request
+     * \param[in] response ObstacjeInterface response
+     * \return none. 
+    */
+    void callbackObstacleDelService(const miapr_ur5e_interfaces::srv::ObstacleDelInterface::Request::SharedPtr request,
+                                 const miapr_ur5e_interfaces::srv::ObstacleDelInterface::Response::SharedPtr response){
+        
+        RCLCPP_INFO(this->get_logger(),"### Obstacle Del Serice ###");
+        
+        auto move_group_node = rclcpp::Node::make_shared("move_group_interface_tutorial");
+        rclcpp::executors::SingleThreadedExecutor executor;
+        executor.add_node(move_group_node);
+        std::thread([&executor]() { 
+            executor.spin(); 
+        }).detach();
+
+        auto move_group_interface = MoveGroupInterface(move_group_node, "ur_manipulator");
+
+        // Add the collision object to the scene
+        moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
+        planning_scene_interface.removeCollisionObjects(this->obstacles);
+        this->obstacles.clear();
+        response->status = true;
+        executor.cancel(); 
+    }
+    /** 
+     * \brief Obstacle Add service callback.
+     * \param[in] request  ObstacjeInterface request
+     * \param[in] response ObstacjeInterface response
+     * \return none. 
+    */
+    void callbackObstacleAddService(const miapr_ur5e_interfaces::srv::ObstacjeInterface::Request::SharedPtr request,
+                                 const miapr_ur5e_interfaces::srv::ObstacjeInterface::Response::SharedPtr response){
+        RCLCPP_INFO(this->get_logger(),"### Obstacle Add Serice ###");
+        auto move_group_node = rclcpp::Node::make_shared("move_group_interface_tutorial");
+        rclcpp::executors::SingleThreadedExecutor executor;
+        executor.add_node(move_group_node);
+        std::thread([&executor]() { 
+            executor.spin(); 
+        }).detach();
+
+        auto move_group_interface = MoveGroupInterface(move_group_node, "ur_manipulator");
+        // Create collision object for the robot to avoid
+        std::string name = "box_" + std::to_string(this->obstacles.size());
+        auto const collision_object = [name, request, frame_id = move_group_interface.getPlanningFrame()] {
+            moveit_msgs::msg::CollisionObject collision_object;
+            collision_object.header.frame_id = frame_id;
+            collision_object.id = name;
+            shape_msgs::msg::SolidPrimitive primitive;
+
+            // Define the size of the box in meters
+            primitive.type = primitive.BOX;
+            primitive.dimensions.resize(3);
+            primitive.dimensions[primitive.BOX_X] = request->box_x;
+            primitive.dimensions[primitive.BOX_Y] = request->box_y;
+            primitive.dimensions[primitive.BOX_Z] = request->box_z;
+
+            // Define the pose of the box (relative to the frame_id)
+            geometry_msgs::msg::Pose box_pose;
+            box_pose.orientation.w = 1.0;
+            box_pose.position.x = request->x;
+            box_pose.position.y = request->y;
+            box_pose.position.z = request->z;
+
+            collision_object.primitives.push_back(primitive);
+            collision_object.primitive_poses.push_back(box_pose);
+            collision_object.operation = collision_object.ADD;
+
+            return collision_object;
+        }();
+        // Add the collision object to the scene
+        moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
+        planning_scene_interface.applyCollisionObject(collision_object);
+        this->obstacles.emplace_back(collision_object.id);
+        response->status = true;
+        executor.cancel();  
+    }
     /** 
      * \brief Cartesian linear trajectory service callback.
      * \param[in] request CartesianTrajectoryInterface request

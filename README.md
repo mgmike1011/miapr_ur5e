@@ -35,5 +35,13 @@ foo@bar:~/ros2_miapr$ ros2 service call /cartesian_trajectory_service miapr_ur5e
 
 ## Cartesian Linear Space Trajectory
 ```console
-ros2 service call /cartesian_linear_trajectory_service miapr_ur5e_interfaces/srv/CartesianTrajectoryInterface "{x: 0.2, y: 0, z: 0, qw: 0, qx: 0, qy: 0, qz: 0}"
+foo@bar:~/ros2_miapr$ ros2 service call /cartesian_linear_trajectory_service miapr_ur5e_interfaces/srv/CartesianTrajectoryInterface "{x: 0.2, y: 0, z: 0, qw: 0, qx: 0, qy: 0, qz: 0}"
+```
+## Add obstacle to scene
+```console
+foo@bar:~/ros2_miapr$ ros2 service call /obstacle_add_service miapr_ur5e_interfaces/srv/ObstacjeInterface "{x: 1, y: 1, z: -2, box_x: 1, box_y: 1, box_z: 1}"
+```
+## Delete all obstacles
+```console
+foo@bar:~/ros2_miapr$ ros2 service call /obstacle_del_service miapr_ur5e_interfaces/srv/ObstacleDelInterface
 ```
