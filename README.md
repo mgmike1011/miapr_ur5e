@@ -1,4 +1,5 @@
-# Metody i algorytmy planowania ruchu robotów - Projekt
+# Metody i algorytmy planowania ruchu robotów - Projekt - 2023
+# Agnieszka Piórkowska, Miłosz Gajewski
 ## Uruchomienie symulatora
 ```console
 foo@bar:~/ros2_miapr$ ./src/Universal_Robots_ROS2_Driver/ur_robot_driver/scripts/start_ursim.sh -m ur5e
@@ -43,14 +44,74 @@ foo@bar:~/ros2_miapr$ ros2 service call /cartesian_trajectory_service miapr_ur5e
 ```console
 foo@bar:~/ros2_miapr$ ros2 service call /cartesian_linear_trajectory_service miapr_ur5e_interfaces/srv/CartesianTrajectoryInterface "{x: 0.2, y: 0, z: 0, qw: 0, qx: 0, qy: 0, qz: 0}"
 ```
-## Obstacles
+## Przeszkody
 
-### Add obstacle to scene
+### Dodanie przeszkody do sceny
 ```console
 foo@bar:~/ros2_miapr$ ros2 service call /obstacle_add_service miapr_ur5e_interfaces/srv/ObstacjeInterface "{x: 1, y: 1, z: -2, box_x: 1, box_y: 1, box_z: 1}"
 ```
 
-### Delete all obstacles
+### Usuwanie przeszkód ze sceny
 ```console
 foo@bar:~/ros2_miapr$ ros2 service call /obstacle_del_service miapr_ur5e_interfaces/srv/ObstacleDelInterface
+```
+
+## Interfejsy dodatkowe
+### CartesianTrajectoryInterface.srv
+```console
+# 
+# Request: position, Response: status
+# Controlers: 0 - SBLkConfigDefault, 1 - ESTkConfigDefault, 2 - LBKPIECEkConfigDefault, 3 - BKPIECEkConfigDefault, 4 - KPIECEkConfigDefault, 5 - RRTkConfigDefault
+# 6 - RRTConnectkConfigDefault, 7 - RRTstarkConfigDefault, 8 - TRRTkConfigDefault, 9 - PRMkConfigDefault, 10 - PRMstarkConfigDefault
+# 
+float64 x
+float64 y
+float64 z
+float64 qw
+float64 qx
+float64 qy
+float64 qz
+uint8 controller
+---
+bool status
+```
+### JointTrajectoryInterface.srv
+```console
+# 
+# Request: joiny values, Response: status
+# Controlers: 0 - SBLkConfigDefault, 1 - ESTkConfigDefault, 2 - LBKPIECEkConfigDefault, 3 - BKPIECEkConfigDefault, 4 - KPIECEkConfigDefault, 5 - RRTkConfigDefault
+# 6 - RRTConnectkConfigDefault, 7 - RRTstarkConfigDefault, 8 - TRRTkConfigDefault, 9 - PRMkConfigDefault, 10 - PRMstarkConfigDefault
+# 
+float64 j1
+float64 j2
+float64 j3
+float64 j4
+float64 j5
+float64 j6
+uint8 controller
+---
+bool status
+```
+### ObstacjeInterface.srv
+```console
+# 
+# Position: x,y,z Dimensions: box_x, box_y, box_z
+# 
+float64 x
+float64 y
+float64 z
+float64 box_x
+float64 box_y
+float64 box_z
+---
+bool status
+```
+### ObstacleDelInterface.srv
+```console
+# 
+# Clear the stage
+# 
+bool delete_all
+---
+bool status
 ```

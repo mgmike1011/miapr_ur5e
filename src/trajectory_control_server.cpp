@@ -114,7 +114,7 @@ private:
             collision_object.primitives.push_back(primitive);
             collision_object.primitive_poses.push_back(box_pose);
             collision_object.operation = collision_object.ADD;
-
+            
             return collision_object;
         }();
         // Add the collision object to the scene

@@ -1,0 +1,36 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/ur_robot_driver/local/lib/python3.10/dist-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/ur_py_control/lib/python3.10/site-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/ur_msgs/local/lib/python3.10/dist-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/ur_moveit_config/local/lib/python3.10/dist-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/ur_dashboard_msgs/local/lib/python3.10/dist-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/rqt_joint_trajectory_controller/lib/python3.10/site-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/rqt_controller_manager/lib/python3.10/site-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/ros2controlcli/lib/python3.10/site-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/ros2_controllers_test_nodes/lib/python3.10/site-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/controller_manager/local/lib/python3.10/dist-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/miapr_ur5e_interfaces/local/lib/python3.10/dist-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/controller_manager_msgs/local/lib/python3.10/dist-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/control_msgs/local/lib/python3.10/dist-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/ur_robot_driver/local/lib/python3.10/dist-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/ur_py_control/lib/python3.10/site-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/ur_msgs/local/lib/python3.10/dist-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/ur_moveit_config/local/lib/python3.10/dist-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/ur_dashboard_msgs/local/lib/python3.10/dist-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/rqt_joint_trajectory_controller/lib/python3.10/site-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/rqt_controller_manager/lib/python3.10/site-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/ros2controlcli/lib/python3.10/site-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/ros2_controllers_test_nodes/lib/python3.10/site-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/controller_manager/local/lib/python3.10/dist-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/miapr_ur5e_interfaces/local/lib/python3.10/dist-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/controller_manager_msgs/local/lib/python3.10/dist-packages",
+        "/home/milosz/RiSA_1/MiAPR/ros2_miapr/install/control_msgs/local/lib/python3.10/dist-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ]
+}
